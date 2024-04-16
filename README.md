@@ -2,7 +2,7 @@
 
 This project demonstrates an issue in [spotify/ios-sdk](https://github.com/spotify/ios-sdk) whereby the `SpotifyiOS.xcframework` contained in the [v1.2.5 release](https://github.com/spotify/ios-sdk/releases/tag/v1.2.5) generates umbrella header warnings in a fresh Xcode project.
 
-This project was created to add context and reproduction steps to the [GitHub Issue opened here](TODO).
+This project was created to add context and reproduction steps to the [GitHub Issue opened here](https://github.com/spotify/ios-sdk/issues/418).
 
 ## Configuration
 
