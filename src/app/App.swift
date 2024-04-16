@@ -1,8 +1,8 @@
 //
-//  App.swift
-//  xcode-runtime-sanitizer-demo
+//  ContentView.swift
+//  umbrella-header-reproducer-project
 //
-//  Created by Connor Wybranowski on 1/18/23.
+//  Created by Connor Wybranowski on 4/16/24.
 //
 
 import SwiftUI

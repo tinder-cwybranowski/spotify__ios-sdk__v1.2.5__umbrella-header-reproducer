@@ -1,10 +1,6 @@
-# Demo Repository Template
+# Reproducer Project: spotify/ios-sdk v1.2.5 Umbrella Header Warnings
 
-This project is a template for demonstrating / reproducing issues found in other external dependencies, so that high quality GitHub Issues can be submitted to repository owners. After bootstrapping with this template, adjust the contents (e.g. README, source files, etc.) as necessary to encapsulate the specific demonstration.
-
-Examples include:
-- [tinder-cwybranowski/xcode-runtime-sanitizer-demo](https://github.com/tinder-cwybranowski/xcode-runtime-sanitizer-demo)
-    - [GitHub Issue](https://github.com/buildbuddy-io/rules_xcodeproj/issues/1613)
+This project demonstrates an issue in [spotify/ios-sdk](https://github.com/spotify/ios-sdk) whereby the `SpotifyiOS.xcframework` contained in the [v1.2.5 release](https://github.com/spotify/ios-sdk/releases/tag/v1.2.5) generates umbrella header warnings in a fresh Xcode project.
 
 This project was created to add context and reproduction steps to the [GitHub Issue opened here](TODO).
 
@@ -13,26 +9,43 @@ This project was created to add context and reproduction steps to the [GitHub Is
 These results were validated using the following configuration:
 
 - Host machine:
-    - Model: TODO
-    - CPU: TODO
-    - RAM: TODO
-    - OS: TODO
+    - Model: 16-inch MacBook Pro (2023)
+    - CPU: Apple M3 Max
+    - RAM: 64 GB
+    - OS: macOS Sonoma 14.3
 - Dependecies:
-    - Xcode: TODO
-    - Bazel: TODO
+    - Xcode: 15.2
 
 ## Setup
 
-This section might include commands for others to invoke to validate the results on their machine.
+This reproducer project uses [bazelbuild/bazelisk](https://github.com/bazelbuild/bazelisk) and [yonaskolb/XcodeGen](https://github.com/yonaskolb/XcodeGen) to create an Xcode project demonstrating the issue detailed below.
+
+The following command can be used to generate and open the Xcode project:
+```
+make xcodegen_project
+```
 
 ## Issue
 
-This section concisely describes the issue, along with any reproduction steps.
-
 ### Expected Outcome
 
-This section concisely describes the **expected outcome**. Feel free to add media (e.g. pictures, videos, etc.) to better demonstrate the expectation.
+Building the iOS Application target should produce no warnings / errors when linking to / importing the `SpotifyiOS` module.
 
 ### Actual Outcome
 
-This section concisely describes the **actual outcome**. Feel free to add media (e.g. pictures, videos, etc.) to better demonstrate the outcome.
+Building the iOS Application target produces the following umbrella header warnings:
+
+```
+<module-includes>:1:9: note: in file included from <module-includes>:1:
+#import "Headers/SpotifyiOS.h"
+        ^
+/Users/connorwybranowski/Library/Developer/Xcode/DerivedData/XcodegenProject-djterbzbcajjghauytowisaxzrmg/Build/Products/Debug-iphonesimulator/SpotifyiOS.framework/Headers/SpotifyiOS.h:8:1: warning: umbrella header for module 'SpotifyiOS' does not include header 'SPTAppRemoteConnectivityState.h'
+
+^
+<module-includes>:1:9: note: in file included from <module-includes>:1:
+#import "Headers/SpotifyiOS.h"
+        ^
+/Users/connorwybranowski/Library/Developer/Xcode/DerivedData/XcodegenProject-djterbzbcajjghauytowisaxzrmg/Build/Products/Debug-iphonesimulator/SpotifyiOS.framework/Headers/SpotifyiOS.h:8:1: warning: umbrella header for module 'SpotifyiOS' does not include header 'SPTAppRemoteConnectivityAPI.h'
+
+^
+```
